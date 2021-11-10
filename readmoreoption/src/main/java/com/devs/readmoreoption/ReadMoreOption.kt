@@ -56,6 +56,7 @@ class ReadMoreOption(
         builder.lessLabelColor,
         builder.labelUnderLine,
         builder.expandAnimation,
+        builder.listener
     )
 
     fun addReadMoreTo(textView: TextView, text: CharSequence) {
@@ -89,7 +90,7 @@ class ReadMoreOption(
             val ss = SpannableString.valueOf(spannableStringBuilder)
             val clickableSpan: ClickableSpan = object : ClickableSpan() {
                 override fun onClick(view: View) {
-                    listener?.onLess()
+                    listener?.onMore()
                     addReadLess(textView, text)
                 }
 
@@ -122,8 +123,8 @@ class ReadMoreOption(
         val ss = SpannableString.valueOf(spannableStringBuilder)
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) {
+                listener?.onLess()
                 Handler().post {
-                    listener?.onMore()
                     addReadMoreTo(textView, text)
                 }
             }
@@ -176,7 +177,7 @@ class ReadMoreOption(
         fun lessLabelColor(lessc: Int) = apply { lessLabelColor = lessc }
         fun labelUnderLine(ul: Boolean) = apply { labelUnderLine = ul }
         fun expandAnimation(anim: Boolean) = apply { expandAnimation = anim }
-        fun onLabelClickListener(onLabelClickListener: OnLabelClickListener) = apply { 
+        fun onLabelClickListener(onLabelClickListener: OnLabelClickListener) = apply {
             listener = onLabelClickListener
         }
 
