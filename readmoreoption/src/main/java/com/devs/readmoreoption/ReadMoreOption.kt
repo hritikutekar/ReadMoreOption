@@ -43,6 +43,7 @@ class ReadMoreOption(
     val lessLabelColor: Int = 0,
     val labelUnderLine: Boolean = false,
     val expandAnimation: Boolean = false,
+    val listener?: OnLabelClickListener = null
 ) {
 
     private constructor(builder: Builder) : this(
@@ -88,6 +89,7 @@ class ReadMoreOption(
             val ss = SpannableString.valueOf(spannableStringBuilder)
             val clickableSpan: ClickableSpan = object : ClickableSpan() {
                 override fun onClick(view: View) {
+                    listener.onLess()
                     addReadLess(textView, text)
                 }
 
@@ -120,7 +122,10 @@ class ReadMoreOption(
         val ss = SpannableString.valueOf(spannableStringBuilder)
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) {
-                Handler().post { addReadMoreTo(textView, text) }
+                Handler().post {
+                    listener.onMore()
+                    addReadMoreTo(textView, text)
+                }
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -160,6 +165,8 @@ class ReadMoreOption(
             private set
         var expandAnimation = false
             private set
+        var listener: OnLabelClickListener? = null
+            private set
 
         fun textLength(length: Int) = apply { textLength = length }
         fun textLengthType(type: Int) = apply { textLengthType = type }
@@ -169,6 +176,9 @@ class ReadMoreOption(
         fun lessLabelColor(lessc: Int) = apply { lessLabelColor = lessc }
         fun labelUnderLine(ul: Boolean) = apply { labelUnderLine = ul }
         fun expandAnimation(anim: Boolean) = apply { expandAnimation = anim }
+        fun onLabelClickListener(onLabelClickListener: OnLabelClickListener) = apply { 
+            listener = onLabelClickListener
+        }
 
         fun build() = ReadMoreOption(this)
     }
@@ -177,6 +187,11 @@ class ReadMoreOption(
         private val TAG = ReadMoreOption::class.java.simpleName
         const val TYPE_LINE = 1
         const val TYPE_CHARACTER = 2
+    }
+
+    interface OnLabelClickListener {
+        fun onMore()
+        fun onLess()
     }
 
 }
