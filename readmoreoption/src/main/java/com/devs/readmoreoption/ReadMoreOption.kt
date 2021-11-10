@@ -89,7 +89,7 @@ class ReadMoreOption(
             val ss = SpannableString.valueOf(spannableStringBuilder)
             val clickableSpan: ClickableSpan = object : ClickableSpan() {
                 override fun onClick(view: View) {
-                    listener.onLess()
+                    listener?.onLess()
                     addReadLess(textView, text)
                 }
 
@@ -123,7 +123,7 @@ class ReadMoreOption(
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) {
                 Handler().post {
-                    listener.onMore()
+                    listener?.onMore()
                     addReadMoreTo(textView, text)
                 }
             }
