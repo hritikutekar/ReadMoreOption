@@ -43,7 +43,7 @@ class ReadMoreOption(
     val lessLabelColor: Int = 0,
     val labelUnderLine: Boolean = false,
     val expandAnimation: Boolean = false,
-    val listener?: OnLabelClickListener = null
+    val listener: OnLabelClickListener? = null
 ) {
 
     private constructor(builder: Builder) : this(
